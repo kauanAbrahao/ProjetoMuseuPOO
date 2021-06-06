@@ -5,7 +5,9 @@ import entities.Visitante;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
 
@@ -32,8 +34,44 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
     }
 
     @Override
-    public Visita buscarVisita(String cpf){
-        return null;
+    public Visita buscarVisita(String cpf, LocalDate dataref){
+        try {
+            String sql = "SELECT * FROM visita_cad WHERE (cpf = ? and dataref = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cpf);
+            preparedStatement.setString(2, dataref.toString());
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            resultSet.next();
+
+            Visita visita = new Visita();
+            visita.setDataref(LocalDate.parse(resultSet.getString("dataref")));
+            visita.setValor(resultSet.getDouble("valorPago"));
+            visita.setQuantidade(resultSet.getInt("quantidade"));
+
+            return visita;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public boolean deletarVisita(String cpf, LocalDate dataref) {
+        try {
+            String sql = "DELETE * FROM visita_cad WHERE (cpf = ? and dataref = ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, cpf);
+            preparedStatement.setString(2, dataref.toString());
+
+            preparedStatement.execute();
+            return true;
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
     }
 
 }
