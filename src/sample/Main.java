@@ -19,6 +19,7 @@ import java.time.LocalDate;
 public class Main extends Application {
 
     VisitanteController visitanteController = new VisitanteController();
+    IngressoController ingressoController = new IngressoController();
 
     //Primeira tela
     TextField textCpf = new TextField();
@@ -36,7 +37,6 @@ public class Main extends Application {
     Button btnAcessar = new Button("Acessar");
     Button btnAcessarADM = new Button("Acessar");
 
-    IngressoController ingressoController = new IngressoController();
     Visitante visitanteDoSistema = new Cidadao();
 
     //Segunda Tela
@@ -104,17 +104,9 @@ public class Main extends Application {
             }
         });
 
-        btnCadastrar.setOnAction((e)-> {
+        btnCadastrar.setOnAction((e) -> {
             try {
                 this.startCadastro(new Stage());
-            } catch (Exception exception) {
-                exception.printStackTrace();
-            }
-        });
-
-        btnAcessar.setOnAction((e)-> {
-            try {
-                this.startInicio(new Stage());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -154,6 +146,10 @@ public class Main extends Application {
     }
     public void startInicio(Stage primaryStage) throws Exception{
 
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setContentText("Bem vindo, " + visitanteDoSistema.getNome() + " !");
+        alert.show();
+
         GridPane gridPane = new GridPane();
         Scene scene = new Scene(gridPane, 400, 400);
 
@@ -191,7 +187,7 @@ public class Main extends Application {
         gridPane.add(btnComprar, 1, 12);
         gridPane.add(btnVolta, 5, 12);
 
-        btnComprar.setOnAction((e)->IngressoController.comprarIngresso(boundaryToEntityCompraIngresso(Visitante comprarIngresso)));
+        btnComprar.setOnAction((e)-> this.boundaryToEntityCompraIngresso(visitanteDoSistema));
         btnVolta.setOnAction((e)-> primaryStage.close());
 
         primaryStage.setScene(scene);
@@ -202,18 +198,31 @@ public class Main extends Application {
 //    ----------------------------------------------------------------------------------------------------------
 
 
-    private void boundaryToEntityCompraIngresso(Visitante comprarIngresso) {
-        //MONTAR A TELA E MOSTRAR AS INFORMAÇÕES DA COMPRA DE INGRESSO (VALOR, DATA DE VISITA ETC).
+    private void boundaryToEntityCompraIngresso(Visitante visitante) {
+        int qtd = Integer.parseInt(textQuantidade.getText());
+        boolean resultado = ingressoController.comprarIngresso(visitante, textDataIngresso.getText(), qtd);
+
+        if(resultado){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("Parabéns! Sua visita foi marcada com sucesso");
+            alert.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Por favor, reveja os dados para prosseguir.");
+            alert.show();
+        }
+
     }
 
 
     private void entityToBoundaryLoginNoSistema(Visitante visitante) throws Exception {
         if (visitante != null){
-            //mostra na telinha que o login foi sucesso e vai para a próxima tela
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setContentText("Bem vindo, " + visitante.getNome() + " !");
-            alert.show();
+//            mostra na telinha que o login foi sucesso e vai para a próxima tela
+//            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+//            alert.setContentText("Bem vindo, " + visitante.getNome() + " !");
+//            alert.show();
             this.visitanteDoSistema = visitante;
+            this.startInicio(new Stage());
             //CHAMAR A TELA QUE SERÁ A DE COMPRA DE INGRESSO ETC
 //            this.startIngresso(new Stage());
 
