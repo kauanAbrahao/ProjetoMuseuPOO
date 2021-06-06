@@ -1,10 +1,11 @@
 package dao;
 
 import entities.Visita;
+import entities.Visitante;
 
 public interface VisitaDAO {
 
-    void inserirVisita(Visita visita);
+    boolean inserirVisita(Visitante visitante, int quantidade);
 
     Visita buscarVisita(String cpf);
 }

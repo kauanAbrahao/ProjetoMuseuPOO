@@ -1,6 +1,5 @@
 package dao;
 
-import entities.Cidadao;
 import entities.Visitante;
 
 public interface VisitanteDAO {
