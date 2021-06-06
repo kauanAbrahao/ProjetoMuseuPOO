@@ -2,6 +2,7 @@ package dao;
 
 import entities.Cidadao;
 import entities.Visitante;
+import javafx.scene.control.Alert;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,15 +17,14 @@ public class VisitanteDAOImpl extends DatabaseConfig implements VisitanteDAO{
     @Override
     public boolean inserirVisitante(Visitante visitante) {
 
-        boolean resultado;
-        String sql = String.format("INSERT INTO museu (cpf, rg, nome, email, telefone, login, senha, datanasc)" +
+        String sql = String.format("INSERT INTO visitante_cad (cpf, rg, nome, email, telefone, login, senha, datanasc)" +
                         " VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
                 visitante.getCpf(), visitante.getRg(), visitante.getNome(), visitante.getEmail(),
                 visitante.getTelefone(), visitante.getLogin(), visitante.getSenha(), visitante.getDatanasc());
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            resultado = preparedStatement.execute();
-            return resultado;
+            preparedStatement.execute();
+            return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return false;
@@ -43,6 +43,7 @@ public class VisitanteDAOImpl extends DatabaseConfig implements VisitanteDAO{
 
             ResultSet resultSet = preparedStatement.executeQuery();
             Visitante visitante = new Cidadao();
+            resultSet.next();
             visitante.setCpf(resultSet.getString("cpf"));
             visitante.setRg(resultSet.getString("rg"));
             visitante.setNome(resultSet.getString("nome"));

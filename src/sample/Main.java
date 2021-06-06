@@ -147,12 +147,12 @@ public class Main extends Application {
     private Cidadao boundaryToEntityRegistroNoSistema() {
         try{
             Cidadao visitante = new Cidadao();
-            visitante.setCpf("123");
-            visitante.setEmail("email");
+            visitante.setCpf(textCpfCadastro.getText());
+            visitante.setEmail(textEmailCadastro.getText());
             visitante.setDatanasc(LocalDate.now());
-            visitante.setNome("Nome");
-            visitante.setRg("321");
-            visitante.setTelefone("12345");
+            visitante.setNome(textNomeCadastro.getText());
+            visitante.setRg(textRgCadastro.getText());
+            visitante.setTelefone(textTelefoneCadastro.getText());
             //Login e senha
             visitante.setLogin(textLoginCadastro.getText());
             visitante.setSenha(textSenhaCadastro.getText());

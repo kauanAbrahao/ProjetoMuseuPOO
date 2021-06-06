@@ -44,9 +44,11 @@ public class VisitanteController {
             if(resultado){
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
                 alert.setContentText("Cadastro realizado com sucesso!");
+                alert.show();
             } else {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setContentText("Verifique os campos e tente novamente!");
+                alert.show();
             }
         }
 
