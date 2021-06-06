@@ -1,14 +1,11 @@
 package dao;
 
-import entities.Cidadao;
 import entities.Visita;
 import entities.Visitante;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 
 public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
 

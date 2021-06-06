@@ -19,7 +19,9 @@ public class IngressoController {
         visitante.getVisita().setDataref(dataDeVisita);
         double valorIngresso = visitante.calcularValorIngresso(ingresso);
         visitante.setValorTotal(valorIngresso);
-        visitaDAO.inserirVisita(visitante, quantidade);
-        return true;
+
+        boolean sucesso = visitaDAO.inserirVisita(visitante, quantidade);
+
+        return sucesso;
     }
 }
