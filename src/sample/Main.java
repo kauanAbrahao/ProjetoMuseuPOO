@@ -1,16 +1,18 @@
 package sample;
 
+import controller.AdminController;
 import controller.IngressoController;
 import controller.VisitanteController;
+import entities.Administrador;
 import entities.Cidadao;
 import entities.Visitante;
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -20,17 +22,18 @@ public class Main extends Application {
 
     VisitanteController visitanteController = new VisitanteController();
     IngressoController ingressoController = new IngressoController();
+    AdminController adminController = new AdminController();
 
     //Primeira tela
     TextField textCpf = new TextField();
-    TextField textCpfADM = new TextField();
+    TextField textLoginADM = new TextField();
     TextField textSenha = new TextField();
     TextField textSenhaADM = new TextField();
     Label sistema = new Label("Sistema Zoomuseum");
     Label Visita = new Label("Acesso Visitante");
     Label ADM = new Label("Acesso Administrador");
     Label CPF = new Label("CPF");
-    Label CPFADM = new Label("CPF");
+    Label LoginADM = new Label("Login");
     Label SenhaADM = new Label("Senha");
     Label Senha = new Label("Senha");
     Button btnCadastrar = new Button("Cadastrar");
@@ -73,6 +76,20 @@ public class Main extends Application {
     Button btnComprar = new Button("Comprar");
     Button btnVolta = new Button("Voltar");
 
+    //Tela Principal Admin
+    Label admPrincipal = new Label("Você está logado como ADM");
+    Button btnMudarVisita = new Button("Alterar Visita");
+    Label cpfDoCliente = new Label("CPF: ");
+    Label dataAtualDaVisita = new Label("Data atual da visita: ");
+    Label dataNova = new Label("Nova data: ");
+    TextField txtCpfDoCliente = new TextField();
+    TextField txtDataAntiga = new TextField();
+    TextField txtDataNova = new TextField();
+
+    Button btnRelatorio = new Button("Emitir Relatorio");
+    Label relatorio = new Label("Relatório de Visitas: ");
+    ListView visitas = new ListView();
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -83,8 +100,8 @@ public class Main extends Application {
         gridPane.add(Visita, 1, 5);
         gridPane.add(ADM, 9, 5);
         gridPane.add(CPF, 1, 6);
-        gridPane.add(CPFADM, 9, 6);
-        gridPane.add(textCpfADM, 9, 7);
+        gridPane.add(LoginADM, 9, 6);
+        gridPane.add(textLoginADM, 9, 7);
         gridPane.add(textSenhaADM, 9, 9);
         gridPane.add(Senha, 1, 8);
         gridPane.add(SenhaADM, 9, 8);
@@ -111,6 +128,9 @@ public class Main extends Application {
                 exception.printStackTrace();
             }
         });
+
+        //Acesso do ADM
+        btnAcessarADM.setOnAction((e) -> loginNoSistemaADM());
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -144,6 +164,8 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+//    ----------------------------------------------------------------------------------------------------
     public void startInicio(Stage primaryStage) throws Exception{
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -173,6 +195,8 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+//    ------------------------------------------------------------------------------------------------
+
     public void startIngresso(Stage primaryStage) throws Exception{
 
         GridPane gridPane = new GridPane();
@@ -197,6 +221,37 @@ public class Main extends Application {
 
 //    ----------------------------------------------------------------------------------------------------------
 
+    private void startAdmin(Stage stage) {
+        GridPane gridPane = new GridPane();
+        Scene scene = new Scene (gridPane, 300, 300);
+
+        admPrincipal.setPadding(new Insets(2, 2, 2, 2));
+        txtCpfDoCliente.setPadding(new Insets(5));
+
+        gridPane.add(admPrincipal, 1, 1);
+        gridPane.add(cpfDoCliente, 1, 3);
+        gridPane.add(txtCpfDoCliente, 1, 5);
+        gridPane.add(dataAtualDaVisita, 1, 7);
+        gridPane.add(txtDataAntiga, 1, 9);
+        gridPane.add(dataNova, 1, 11);
+        gridPane.add(txtDataNova, 1, 13);
+
+        gridPane.add(btnMudarVisita, 1, 15);
+
+        gridPane.add(btnRelatorio, 2, 3);
+        gridPane.add(relatorio, 2, 5);
+        gridPane.add(visitas, 2, 5);
+
+
+
+        stage.setScene(scene);
+        stage.show();
+
+
+
+    }
+
+//    -----------------------------------------------------------------------------------------------------------
 
     private void boundaryToEntityCompraIngresso(Visitante visitante) {
         int qtd = Integer.parseInt(textQuantidade.getText());
@@ -254,6 +309,18 @@ public class Main extends Application {
             return null;
         }
     }
+
+    private void loginNoSistemaADM() {
+        Administrador admin = adminController.loginNoSistema(textLoginADM.getText(), textSenhaADM.getText());
+        if(admin == null){
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setContentText("Login ou senha incorretos");
+            alert.show();
+        } else {
+            this.startAdmin(new Stage());
+        }
+    }
+
 
 
     public static void main(String[] args) {

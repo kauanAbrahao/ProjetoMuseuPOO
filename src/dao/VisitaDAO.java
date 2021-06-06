@@ -13,4 +13,7 @@ public interface VisitaDAO {
     List<Visita> buscarVisita(String cpf);
 
     boolean deletarVisita(String cpf, LocalDate dataref);
+
+    List<Visita> buscarTodasAsVisitas();
+
 }

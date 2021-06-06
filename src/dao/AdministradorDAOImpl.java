@@ -17,6 +17,9 @@ public class AdministradorDAOImpl extends DatabaseConfig implements Administrado
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, login);
+            preparedStatement.setString(2, senha);
+
             ResultSet resultSet = preparedStatement.executeQuery();
             resultSet.next();
 

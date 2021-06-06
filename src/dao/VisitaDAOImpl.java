@@ -77,4 +77,9 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
         }
     }
 
+    @Override
+    public List<Visita> buscarTodasAsVisitas() {
+        return null;
+    }
+
 }
