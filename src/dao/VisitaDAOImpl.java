@@ -8,6 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
 
@@ -34,7 +37,8 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
     }
 
     @Override
-    public Visita buscarVisita(String cpf, LocalDate dataref){
+    public List<Visita> buscarVisita(String cpf, LocalDate dataref){
+        List<Visita> visitas = new ArrayList<>();
         try {
             String sql = "SELECT * FROM visita_cad WHERE (cpf = ? and dataref = ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -42,18 +46,18 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
             preparedStatement.setString(2, dataref.toString());
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
-
-            Visita visita = new Visita();
-            visita.setDataref(LocalDate.parse(resultSet.getString("dataref")));
-            visita.setValor(resultSet.getDouble("valorPago"));
-            visita.setQuantidade(resultSet.getInt("quantidade"));
-
-            return visita;
+            while(resultSet.next()){
+                Visita visita = new Visita();
+                visita.setDataref(LocalDate.parse(resultSet.getString("dataref")));
+                visita.setValor(resultSet.getDouble("valorPago"));
+                visita.setQuantidade(resultSet.getInt("quantidade"));
+                visitas.add(visita);
+            }
+            return visitas;
 
         } catch (SQLException throwables) {
             throwables.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
     }
 
