@@ -5,10 +5,12 @@ import dao.VisitaDAOImpl;
 import entities.Ingresso;
 import entities.Visita;
 import entities.Visitante;
+import javafx.scene.control.Alert;
 
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class IngressoController {
 
@@ -35,4 +37,15 @@ public class IngressoController {
 
         return sucesso;
     }
-}
+
+    public List<Visita> buscarVisitas(String cpf){
+        List<Visita> visitas = visitaDAO.buscarVisita(cpf);
+        if (visitas.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Não há nenhuma visita cadastrada nessa data para esse cpf");
+            return null;
+        } else {
+            return visitas;
+        }
+    }
+ }

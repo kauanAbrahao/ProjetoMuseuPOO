@@ -37,13 +37,12 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
     }
 
     @Override
-    public List<Visita> buscarVisita(String cpf, LocalDate dataref){
+    public List<Visita> buscarVisita(String cpf){
         List<Visita> visitas = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM visita_cad WHERE (cpf = ? and dataref = ?)";
+            String sql = "SELECT * FROM visita_cad WHERE (cpf = ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, cpf);
-            preparedStatement.setString(2, dataref.toString());
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){

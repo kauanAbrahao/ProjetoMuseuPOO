@@ -10,7 +10,7 @@ public interface VisitaDAO {
 
     boolean inserirVisita(Visitante visitante, int quantidade);
 
-    List<Visita> buscarVisita(String cpf, LocalDate dataref);
+    List<Visita> buscarVisita(String cpf);
 
     boolean deletarVisita(String cpf, LocalDate dataref);
 }
