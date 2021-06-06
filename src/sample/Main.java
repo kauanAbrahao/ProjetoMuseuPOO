@@ -22,12 +22,19 @@ public class Main extends Application {
 
     //Primeira tela
     TextField textCpf = new TextField();
+    TextField textCpfADM = new TextField();
     TextField textSenha = new TextField();
+    TextField textSenhaADM = new TextField();
     Label sistema = new Label("Sistema Zoomuseum");
+    Label Visita = new Label("Acesso Visitante");
+    Label ADM = new Label("Acesso Administrador");
     Label CPF = new Label("CPF");
+    Label CPFADM = new Label("CPF");
+    Label SenhaADM = new Label("Senha");
     Label Senha = new Label("Senha");
     Button btnCadastrar = new Button("Cadastrar");
     Button btnAcessar = new Button("Acessar");
+    Button btnAcessarADM = new Button("Acessar");
 
     IngressoController ingressoController = new IngressoController();
     Visitante visitanteDoSistema = new Cidadao();
@@ -51,19 +58,41 @@ public class Main extends Application {
 
         Button btnVoltar = new Button("Voltar");
 
+    //Terceira tela
+    Label NomeInicio = new Label(textNomeCadastro.getText());
+    Button btnConsulta = new Button("Consultar");
+    Button btnIngresso = new Button("Comprar Ingresso");
+
+    //Quarta tela
+    Label Comprar = new Label("Compra de Ingresso");
+    Label ComprarIngresso = new Label("Quantidade de Ingressos");
+    TextField textQuantidade = new TextField();
+    Label ValorUni = new Label("Preço unitário: 30 R$");
+    Label Data = new Label("Data");
+    TextField textDataIngresso = new TextField();
+    Button btnComprar = new Button("Comprar");
+    Button btnVolta = new Button("Voltar");
+
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane gridPane = new GridPane();
-        Scene scene = new Scene(gridPane, 400, 400);
+        Scene scene = new Scene(gridPane, 600, 400);
 
         gridPane.add(sistema, 7, 3);
-        gridPane.add(CPF, 3, 6);
-        gridPane.add(Senha, 8, 6);
-        gridPane.add(textCpf, 3, 7);
-        gridPane.add(btnAcessar, 3, 9);
-        gridPane.add(textSenha, 8, 7);
-        gridPane.add(btnCadastrar, 8, 9);
+        gridPane.add(Visita, 1, 5);
+        gridPane.add(ADM, 9, 5);
+        gridPane.add(CPF, 1, 6);
+        gridPane.add(CPFADM, 9, 6);
+        gridPane.add(textCpfADM, 9, 7);
+        gridPane.add(textSenhaADM, 9, 9);
+        gridPane.add(Senha, 1, 8);
+        gridPane.add(SenhaADM, 9, 8);
+        gridPane.add(textCpf, 1, 7);
+        gridPane.add(btnAcessar, 1, 10);
+        gridPane.add(textSenha, 1, 9);
+        gridPane.add(btnCadastrar, 3, 10);
+        gridPane.add(btnAcessarADM, 9, 10);
 
         //Isso é a primeira tela
         btnAcessar.setOnAction((e)-> {
@@ -78,6 +107,14 @@ public class Main extends Application {
         btnCadastrar.setOnAction((e)-> {
             try {
                 this.startCadastro(new Stage());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        btnAcessar.setOnAction((e)-> {
+            try {
+                this.startInicio(new Stage());
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -115,7 +152,51 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    public void startInicio(Stage primaryStage) throws Exception{
 
+        GridPane gridPane = new GridPane();
+        Scene scene = new Scene(gridPane, 400, 400);
+
+        gridPane.add(sistema, 5, 1);
+        gridPane.add(NomeInicio, 1, 1);
+        gridPane.add(btnConsulta, 1, 5);
+        gridPane.add(btnIngresso, 9, 5);
+
+
+        //btnConsulta.setOnAction((e)->visitanteController.cadastrarVisitante(boundaryToEntityRegistroNoSistema()));
+
+        btnIngresso.setOnAction((e)-> {
+            try {
+                this.startIngresso(new Stage());
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public void startIngresso(Stage primaryStage) throws Exception{
+
+        GridPane gridPane = new GridPane();
+        Scene scene = new Scene(gridPane, 400, 400);
+
+        gridPane.add(Comprar, 5, 1);
+        gridPane.add(ComprarIngresso, 1, 3);
+        gridPane.add(textQuantidade, 1, 5);
+        gridPane.add(ValorUni, 6, 5);
+        gridPane.add(Data, 1, 8);
+        gridPane.add(textDataIngresso, 1, 10);
+        gridPane.add(btnComprar, 1, 12);
+        gridPane.add(btnVolta, 5, 12);
+
+        btnComprar.setOnAction((e)->IngressoController.comprarIngresso(boundaryToEntityCompraIngresso(Visitante comprarIngresso)));
+        btnVolta.setOnAction((e)-> primaryStage.close());
+
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
 
 
 //    ----------------------------------------------------------------------------------------------------------

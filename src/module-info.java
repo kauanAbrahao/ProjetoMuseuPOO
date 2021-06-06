@@ -1,4 +1,4 @@
-module MuseuPOO {
+module ProjetoMuseuPOO {
     requires javafx.fxml;
     requires javafx.controls;
     requires org.mariadb.jdbc;
