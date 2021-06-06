@@ -2,18 +2,26 @@ package dao;
 
 import org.mariadb.jdbc.*;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
 public class DatabaseConfig {
 
-    public static final String URL = "jdbc:mariadb//localhost:3306/museu";
+    //A URL é composta por jdbc:<nomeDoBanco>://<ip>:<porta>/<nomeDoDatabase>
+    public static final String URL = "jdbc:mariadb://localhost:3306/museu";
     public static final String USER = "root";
     public static final String PASSWORD = "";
 
-    public static void main(String[] args) {
+
+    public Connection conectaNoBanco(){
         try {
-            Class.forName("org.mariadb.jdbc.Driver");
-            System.out.println("Carregado");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+            return connection;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
         }
+
     }
 }

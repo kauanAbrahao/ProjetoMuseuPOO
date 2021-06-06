@@ -1,5 +1,7 @@
 package controller;
 
+import dao.VisitanteDAO;
+import dao.VisitanteDAOImpl;
 import entities.Aluno;
 import entities.Cidadao;
 import entities.Professor;
@@ -11,40 +13,49 @@ import java.util.List;
 
 public class VisitanteController {
 
-    List<Visitante> visitantesCadastrados = new LinkedList<>();
+    VisitanteDAO visitateDAO = new VisitanteDAOImpl();
 
     //SUBSTITUIR POR DAO DEPOIS
-    public void cadastrarVisitante(Aluno visitante){
+    public void cadastrarVisitante(Visitante visitante){
         if (visitante!=null){
-            visitantesCadastrados.add(visitante);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setContentText("Cadastro realizado com sucesso!");
+            boolean resultado = visitateDAO.inserirVisitante(visitante);
+            if(resultado){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Cadastro realizado com sucesso!");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Verifique os campos e tente novamente!");
+            }
         }
     }public void cadastrarVisitante(Professor visitante){
         if (visitante!=null){
-            visitantesCadastrados.add(visitante);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setContentText("Cadastro realizado com sucesso!");
+            boolean resultado = visitateDAO.inserirVisitante(visitante);
+            if(resultado){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Cadastro realizado com sucesso!");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Verifique os campos e tente novamente!");
+            }
         }
     } public void cadastrarVisitante(Cidadao visitante){
         if (visitante!=null){
-            visitantesCadastrados.add(visitante);
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setContentText("Cadastro realizado com sucesso!");
-            alert.show();
+            boolean resultado = visitateDAO.inserirVisitante(visitante);
+            if(resultado){
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setContentText("Cadastro realizado com sucesso!");
+            } else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setContentText("Verifique os campos e tente novamente!");
+            }
         }
 
     }
 
     //SUBSTITUIR POR DAO DEPOIS
     public Visitante loginVisitante(String loginOuCpf, String senha){
-        for (Visitante visitante: visitantesCadastrados){
-            if((visitante.getLogin().equals(loginOuCpf) || visitante.getCpf().equals(loginOuCpf)
-                    && visitante.getSenha().equals(senha))){
-                return visitante;
-            }
-        }
-        return null;
+        Visitante visitante = visitateDAO.buscarVisitante(loginOuCpf, senha);
+        return visitante;
     }
 
 

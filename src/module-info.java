@@ -3,6 +3,7 @@ module MuseuPOO {
     requires javafx.controls;
     requires org.mariadb.jdbc;
     requires java.sql;
+    requires java.sql.rowset;
 
     opens sample;
 }
