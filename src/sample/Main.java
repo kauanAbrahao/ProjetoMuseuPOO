@@ -5,6 +5,7 @@ import controller.IngressoController;
 import controller.VisitanteController;
 import entities.Administrador;
 import entities.Cidadao;
+import entities.Visita;
 import entities.Visitante;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Main extends Application {
 
@@ -223,7 +225,7 @@ public class Main extends Application {
 
     private void startAdmin(Stage stage) {
         GridPane gridPane = new GridPane();
-        Scene scene = new Scene (gridPane, 300, 300);
+        Scene scene = new Scene (gridPane, 400, 400);
 
         admPrincipal.setPadding(new Insets(2, 2, 2, 2));
         txtCpfDoCliente.setPadding(new Insets(5));
@@ -238,17 +240,29 @@ public class Main extends Application {
 
         gridPane.add(btnMudarVisita, 1, 15);
 
-        gridPane.add(btnRelatorio, 2, 3);
-        gridPane.add(relatorio, 2, 5);
-        gridPane.add(visitas, 2, 5);
+        gridPane.add(btnRelatorio, 2, 10);
+        gridPane.add(relatorio, 2, 12);
+        gridPane.add(visitas, 2, 18);
 
+        gridPane.setPadding(new Insets(5));
 
+        btnRelatorio.setOnAction((e) -> buscarRelatorio());
 
         stage.setScene(scene);
         stage.show();
 
 
 
+    }
+
+    //PRODUZIR RELATORIO
+    private void buscarRelatorio() {
+        List<Visita> listavisitas = adminController.buscarRelatorio();
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        for (Visita visita: listavisitas){
+            itens.add("data: " + visita.getDataref().toString() + " | quantidade: " + visita.getQuantidade());
+        }
+        visitas.setItems(itens);
     }
 
 //    -----------------------------------------------------------------------------------------------------------

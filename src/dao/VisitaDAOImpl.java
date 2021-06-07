@@ -79,7 +79,24 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
 
     @Override
     public List<Visita> buscarTodasAsVisitas() {
-        return null;
+        List<Visita> visitas = new ArrayList<>();
+        try{
+            String sql = "SELECT * FROM visita_cad";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                Visita visita = new Visita();
+                visita.setDataref(resultSet.getDate("dataref").toLocalDate());
+                visita.setQuantidade(resultSet.getInt("quantidade"));
+                visitas.add(visita);
+            }
+
+            return visitas;
+
+        } catch (SQLException ex){
+            ex.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
 }
