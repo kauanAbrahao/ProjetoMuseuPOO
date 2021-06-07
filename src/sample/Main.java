@@ -218,6 +218,7 @@ public class Main extends Application {
         for (Visita visita: listavisitas){
             itens.add("data: " + visita.getDataref().toString() + " | quantidade: " + visita.getQuantidade());
         }
+
         this.visitas.setItems(itens);
         return Cpf;
     }
@@ -316,10 +317,12 @@ public class Main extends Application {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setContentText("Parabéns! Sua visita foi marcada com sucesso");
             alert.show();
+            this.visitas.setItems(null);
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setContentText("Por favor, reveja os dados para prosseguir.");
             alert.show();
+            this.visitas.setItems(null);
         }
 
     }
@@ -333,6 +336,7 @@ public class Main extends Application {
 //            alert.show();
             this.visitanteDoSistema = visitante;
             this.startInicio(new Stage());
+            this.visitas.setItems(null);
             //CHAMAR A TELA QUE SERÁ A DE COMPRA DE INGRESSO ETC
 //            this.startIngresso(new Stage());
 
