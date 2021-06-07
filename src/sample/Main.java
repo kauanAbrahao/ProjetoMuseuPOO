@@ -357,6 +357,7 @@ public class Main extends Application {
             alert.setContentText("Login ou senha incorretos");
             alert.show();
         } else {
+            visitas.setItems(null);
             this.startAdmin(new Stage());
         }
     }
