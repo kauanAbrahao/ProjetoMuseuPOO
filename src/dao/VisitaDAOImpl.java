@@ -78,6 +78,24 @@ public class VisitaDAOImpl extends DatabaseConfig implements VisitaDAO {
     }
 
     @Override
+    public boolean alterarVisita(String cpf, LocalDate dataref, LocalDate novaDataRef) {
+        String sql = "UPDATE visita_cad SET dataref = ? WHERE dataref = ? and cpf = ?";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, novaDataRef.toString());
+            preparedStatement.setString(2, dataref.toString());
+            preparedStatement.setString(3, cpf);
+            preparedStatement.execute();
+            return true;
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return false;
+        }
+
+
+    }
+
+    @Override
     public List<Visita> buscarTodasAsVisitas() {
         List<Visita> visitas = new ArrayList<>();
         try{

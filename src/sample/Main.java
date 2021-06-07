@@ -271,12 +271,27 @@ public class Main extends Application {
         gridPane.setPadding(new Insets(5));
 
         btnRelatorio.setOnAction((e) -> buscarRelatorio());
+        btnMudarVisita.setOnAction((e) -> mudarVisita());
 
         stage.setScene(scene);
         stage.show();
 
 
 
+    }
+
+    //MUDAR A VISITA
+    private void mudarVisita() {
+        boolean resultado = adminController.alterarVisita(txtCpfDoCliente.getText(), txtDataAntiga.getText(), txtDataNova.getText());
+        if (resultado){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setContentText("Visita atualizada!");
+            alert.show();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setContentText("Por favor, verifique os campos e tente novametne");
+            alert.show();
+        }
     }
 
     //PRODUZIR RELATORIO
