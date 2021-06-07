@@ -7,7 +7,6 @@ import entities.Visita;
 import entities.Visitante;
 import javafx.scene.control.Alert;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;

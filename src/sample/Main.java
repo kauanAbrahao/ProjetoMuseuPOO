@@ -13,7 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
@@ -67,6 +66,7 @@ public class Main extends Application {
     Label NomeInicio = new Label(textNomeCadastro.getText());
     Button btnConsulta = new Button("Consultar");
     Button btnIngresso = new Button("Comprar Ingresso");
+    ListView Ingressos = new ListView();
 
     //Quarta tela
     Label Comprar = new Label("Compra de Ingresso");
@@ -175,15 +175,28 @@ public class Main extends Application {
         alert.show();
 
         GridPane gridPane = new GridPane();
-        Scene scene = new Scene(gridPane, 400, 400);
+        Scene scene = new Scene (gridPane, 600, 600);
+
 
         gridPane.add(sistema, 5, 1);
         gridPane.add(NomeInicio, 1, 1);
         gridPane.add(btnConsulta, 1, 5);
         gridPane.add(btnIngresso, 9, 5);
 
+        gridPane.add(visitas, 5, 7);
 
-        //btnConsulta.setOnAction((e)->visitanteController.cadastrarVisitante(boundaryToEntityRegistroNoSistema()));
+        gridPane.setPadding(new Insets(5));
+
+        btnConsulta.setOnAction((e)-> {
+            try {
+                this.buscarIngresso
+                        (buscarIngresso(textCpf.getText()));
+
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+        });
+
 
         btnIngresso.setOnAction((e)-> {
             try {
@@ -197,6 +210,17 @@ public class Main extends Application {
         primaryStage.show();
     }
 
+
+    private String buscarIngresso(String Cpf) {
+        List<Visita> listavisitas = ingressoController.buscarVisitas(Cpf);
+        System.out.println(Cpf);
+        ObservableList<String> itens = FXCollections.observableArrayList();
+        for (Visita visita: listavisitas){
+            itens.add("data: " + visita.getDataref().toString() + " | quantidade: " + visita.getQuantidade());
+        }
+        this.visitas.setItems(itens);
+        return Cpf;
+    }
 //    ------------------------------------------------------------------------------------------------
 
     public void startIngresso(Stage primaryStage) throws Exception{
@@ -264,6 +288,8 @@ public class Main extends Application {
         }
         visitas.setItems(itens);
     }
+
+
 
 //    -----------------------------------------------------------------------------------------------------------
 
