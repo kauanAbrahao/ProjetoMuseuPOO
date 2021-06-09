@@ -3,10 +3,7 @@ package sample;
 import controller.AdminController;
 import controller.IngressoController;
 import controller.VisitanteController;
-import entities.Administrador;
-import entities.Cidadao;
-import entities.Visita;
-import entities.Visitante;
+import entities.*;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +21,7 @@ public class Main extends Application {
     VisitanteController visitanteController = new VisitanteController();
     IngressoController ingressoController = new IngressoController();
     AdminController adminController = new AdminController();
+    Ingresso ingressoParaPegarValor = new Ingresso();
 
     //Primeira tela
     TextField textCpf = new TextField();
@@ -72,14 +70,14 @@ public class Main extends Application {
     Label Comprar = new Label("Compra de Ingresso");
     Label ComprarIngresso = new Label("Quantidade de Ingressos");
     TextField textQuantidade = new TextField();
-    Label ValorUni = new Label("Preço unitário: 30 R$");
+    Label ValorUni = new Label("Preço unitário: R$" + ingressoParaPegarValor.getValor().toString());
     Label Data = new Label("Data");
     TextField textDataIngresso = new TextField();
     Button btnComprar = new Button("Comprar");
     Button btnVolta = new Button("Voltar");
 
     //Tela Principal Admin
-    Label admPrincipal = new Label("Você está logado como ADM");
+    Label admPrincipal = new Label("Perfil ADM");
     Button btnMudarVisita = new Button("Alterar Visita");
     Label cpfDoCliente = new Label("CPF: ");
     Label dataAtualDaVisita = new Label("Data atual da visita: ");
@@ -96,7 +94,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         GridPane gridPane = new GridPane();
-        Scene scene = new Scene(gridPane, 600, 400);
+        Scene scene = new Scene(gridPane, 500, 250);
 
         gridPane.add(sistema, 7, 3);
         gridPane.add(Visita, 1, 5);
@@ -110,7 +108,7 @@ public class Main extends Application {
         gridPane.add(textCpf, 1, 7);
         gridPane.add(btnAcessar, 1, 10);
         gridPane.add(textSenha, 1, 9);
-        gridPane.add(btnCadastrar, 3, 10);
+        gridPane.add(btnCadastrar, 1, 12);
         gridPane.add(btnAcessarADM, 9, 10);
 
         //Isso é a primeira tela
@@ -170,18 +168,14 @@ public class Main extends Application {
 //    ----------------------------------------------------------------------------------------------------
     public void startInicio(Stage primaryStage) throws Exception{
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setContentText("Bem vindo, " + visitanteDoSistema.getNome() + " !");
-        alert.show();
-
         GridPane gridPane = new GridPane();
-        Scene scene = new Scene (gridPane, 600, 600);
+        Scene scene = new Scene (gridPane, 400, 600);
 
 
         gridPane.add(sistema, 5, 1);
         gridPane.add(NomeInicio, 1, 1);
-        gridPane.add(btnConsulta, 1, 5);
-        gridPane.add(btnIngresso, 9, 5);
+        gridPane.add(btnConsulta, 1, 6);
+        gridPane.add(btnIngresso, 1, 5);
 
         gridPane.add(visitas, 5, 7);
 
@@ -227,7 +221,7 @@ public class Main extends Application {
     public void startIngresso(Stage primaryStage) throws Exception{
 
         GridPane gridPane = new GridPane();
-        Scene scene = new Scene(gridPane, 400, 400);
+        Scene scene = new Scene(gridPane, 400, 250);
 
         gridPane.add(Comprar, 5, 1);
         gridPane.add(ComprarIngresso, 1, 3);
@@ -236,7 +230,7 @@ public class Main extends Application {
         gridPane.add(Data, 1, 8);
         gridPane.add(textDataIngresso, 1, 10);
         gridPane.add(btnComprar, 1, 12);
-        gridPane.add(btnVolta, 5, 12);
+        gridPane.add(btnVolta, 1, 14);
 
         btnComprar.setOnAction((e)-> this.boundaryToEntityCompraIngresso(visitanteDoSistema));
         btnVolta.setOnAction((e)-> primaryStage.close());
@@ -265,8 +259,8 @@ public class Main extends Application {
 
         gridPane.add(btnMudarVisita, 1, 15);
 
-        gridPane.add(btnRelatorio, 2, 10);
-        gridPane.add(relatorio, 2, 12);
+        gridPane.add(btnRelatorio, 2, 16);
+        gridPane.add(relatorio, 2, 17);
         gridPane.add(visitas, 2, 18);
 
         gridPane.setPadding(new Insets(5));
